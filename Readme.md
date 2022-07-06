@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
-* Студент: [Неопознанный енот](https://up.htmlacademy.ru/javascript/26/user/2135145).
-* Наставник: `Неизвестно`.
+* Студент: [Irina Styazhkina](https://up.htmlacademy.ru/javascript/26/user/2135145).
+* Наставник: `Герман Топалов`.
 
 ---
 
