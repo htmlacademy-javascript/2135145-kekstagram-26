@@ -1,16 +1,10 @@
 const getRandomFromRange = (from, to) => {
-  if (from < 0 || to <= from) {
-    return;
-  }
-  from = Math.ceil(from);
-  to = Math.floor(to);
-  return Math.floor(Math.random() * (to - from)) + from;
+  const lower = Math.ceil(Math.min(Math.abs(from), Math.abs(to)));
+  const upper = Math.floor(Math.max(Math.abs(from), Math.abs(to)));
+  return Math.floor(Math.random() * (upper - lower + 1)) + lower;
 };
 
-const checkTextLength = (text, maxLength) => {
-  if (maxLength < 0) { return;}
-  return text.length <= maxLength;
-};
+const checkTextLength = (text, maxLength) => text.length <= maxLength;
 
 getRandomFromRange(1, 5);
 checkTextLength('text', 5);
