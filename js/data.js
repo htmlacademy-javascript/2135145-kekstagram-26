@@ -1,4 +1,4 @@
-import {getRandomFromRange, getRandomFromArray} from './util';
+import {getRandomFromRange, getRandomFromArray, getRandomIdFromRange} from './util.js';
 
 const PHOTOS_COUNT = 25;
 const COMMENTS_COUNT = 500;
@@ -35,20 +35,10 @@ const NAMES = [
 const generateMessage = () => Array.from({length: getRandomFromRange(1, 2)},
   () => getRandomFromArray(MESSAGES)).join(' ');
 
-let commentsIndexes = Array.from({length: COMMENTS_COUNT}, (v, k) => k+1);
-
-const generateCommentsIndex = () => {
-  let ind = 0;
-  do {
-    ind = getRandomFromRange(1, COMMENTS_COUNT);
-  }
-  while(commentsIndexes.findIndex((el) => (el !== -1)));
-  commentsIndexes = commentsIndexes.filter((el) => el !== ind);
-  return ind;
-};
+const commentIdGenerator = getRandomIdFromRange(1, COMMENTS_COUNT);
 
 const createComment = () => ({
-  id: generateCommentsIndex(),
+  id: commentIdGenerator(),
   avatar: `img/avatar-${getRandomFromRange(1, 6)}.svg`,
   message: generateMessage(),
   name: getRandomFromArray(NAMES),

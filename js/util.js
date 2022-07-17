@@ -9,7 +9,23 @@ const getRandomFromArray = (array) => {
   return array[index];
 };
 
+const getRandomIdFromRange = (min, max) => {
+  const previousValues = [];
+
+  return function () {
+    let currentValue = getRandomFromRange(min, max);
+    if (previousValues.length >= (max - min + 1)) {
+      return null;
+    }
+    while (previousValues.includes(currentValue)) {
+      currentValue = getRandomFromRange(min, max);
+    }
+    previousValues.push(currentValue);
+    return currentValue;
+  };
+};
+
 const checkTextLength = (text, maxLength) => text.length <= maxLength;
 checkTextLength('text', 5);
 
-export {getRandomFromRange, getRandomFromArray};
+export {getRandomFromRange, getRandomFromArray, getRandomIdFromRange};
