@@ -28,4 +28,6 @@ const getRandomIdFromRange = (min, max) => {
 const checkTextLength = (text, maxLength) => text.length <= maxLength;
 checkTextLength('text', 5);
 
-export {getRandomFromRange, getRandomFromArray, getRandomIdFromRange};
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+export {getRandomFromRange, getRandomFromArray, getRandomIdFromRange, isEscapeKey};
