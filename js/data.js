@@ -44,7 +44,7 @@ const createComment = () => ({
   name: getRandomFromArray(NAMES),
 });
 
-const generateComments = () => Array.from({length: getRandomFromRange(1, 3)}, createComment);
+const generateComments = () => Array.from({length: getRandomFromRange(1, 20)}, createComment);
 
 const createPhotoDescription = (index) => ({
   id: index,
