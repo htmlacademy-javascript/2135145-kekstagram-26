@@ -1,4 +1,5 @@
 const ALERT_SHOW_TIME = 3000;
+const DEFAULT_DEBOUNCE_DELAY = 500;
 
 const getRandomFromRange = (from, to) => {
   const lower = Math.ceil(Math.min(Math.abs(from), Math.abs(to)));
@@ -53,4 +54,13 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export {getRandomFromRange, getRandomFromArray, getRandomIdFromRange, isEscapeKey, showAlert};
+
+const debounce  = (callback, timeoutDelay = DEFAULT_DEBOUNCE_DELAY) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export {getRandomFromRange, getRandomFromArray, getRandomIdFromRange, isEscapeKey, showAlert, debounce};
