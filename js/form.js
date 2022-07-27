@@ -2,6 +2,8 @@ import {isEscapeKey} from './util.js';
 import {createPhoto} from './api.js';
 import {showSuccessMessage} from './success-message.js';
 import {showErrorMessage} from './error-message.js';
+import {resetEffects} from './image-effects.js';
+import {resetImageSettings} from './photo-edit.js';
 
 const page = document.querySelector('body');
 const uploadFileInput = document.querySelector('#upload-file');
@@ -10,17 +12,6 @@ const formOverlay = form.querySelector('.img-upload__overlay');
 const closeButton = form.querySelector('.img-upload__cancel');
 const hashTagInput = form.querySelector('.text__hashtags');
 const submitButton = form.querySelector('.img-upload__submit');
-
-const scaleContainer = document.querySelector('.scale');
-const scaleSmallerButton = scaleContainer.querySelector('.scale__control--smaller');
-const scaleBiggerButton = scaleContainer.querySelector('.scale__control--bigger');
-const scaleInput = scaleContainer.querySelector('.scale__control--value');
-const imagePreview = document.querySelector('.img-upload__preview img');
-
-const SCALE_STEP = 25;
-const MIN_SCALE_VALUE = 25;
-const MAX_SCALE_VALUE = 100;
-
 
 const onKeyPressed = (evt) => {
   if (evt.target.tagName === 'INPUT' || evt.target.tagName === 'TEXTAREA') {
@@ -42,6 +33,8 @@ const enableSubmitButton = () => {
 
 function resetForm(){
   form.reset();
+  resetEffects();
+  resetImageSettings();
 }
 
 function closeForm() {
@@ -65,26 +58,6 @@ closeButton.addEventListener('click', () => {
   resetForm();
 });
 
-const zoom = (value) => {
-  scaleInput.value = `${value}%`;
-  imagePreview.style.transform = `scale(${value / 100})`;
-};
-
-scaleBiggerButton.addEventListener('click', () => {
-  let value = Number(scaleInput.value.slice(0, -1));
-  if (value < MAX_SCALE_VALUE) {
-    value += SCALE_STEP;
-    zoom(value);
-  }
-});
-
-scaleSmallerButton.addEventListener('click', () => {
-  let value = Number(scaleInput.value.slice(0, -1));
-  if (value > MIN_SCALE_VALUE) {
-    value -= SCALE_STEP;
-    zoom(value);
-  }
-});
 
 const pristine = new Pristine(form,
   {

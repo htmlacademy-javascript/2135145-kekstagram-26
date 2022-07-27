@@ -99,4 +99,11 @@ effectsListElement.addEventListener('change', (evt) => {
   updateUISlider(Effects[currentEffect]);
 });
 
-hideSlider();
+const resetEffects = () => {
+  slider.noUiSlider.reset();
+  hideSlider();
+  imagePreview.classList.remove(...imagePreview.classList);
+  imagePreview.style.filter = 'none';
+};
+
+export {hideSlider, resetEffects};
