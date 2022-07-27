@@ -9,7 +9,12 @@ const setPictureClickListener = (picture, photo) => {
   });
 };
 
+const removePhotos = () => {
+  picturesContainer.querySelectorAll('.picture').forEach((picture) => picture.remove());
+};
+
 const renderThumbnails = (photos) => {
+  removePhotos();
   const photosFragment = document.createDocumentFragment();
   photos.forEach((photo) => {
     const picture = pictureTemplate.cloneNode(true);
