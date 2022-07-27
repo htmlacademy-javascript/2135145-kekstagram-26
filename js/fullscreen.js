@@ -46,8 +46,16 @@ const loadComments = (comments) => {
 
 const getLastShownCommentIndex = (lastValue, comments) => comments.length < COMMENTS_PATCH + lastValue ? comments.length : COMMENTS_PATCH + lastValue ;
 
+const setLoadedCommentsCount = (count, totalLength) => {
+  commentsLoadedElement.textContent = count;
+  if (count === totalLength) {
+    commentsLoader.classList.add('hidden');
+  }
+};
+
 const setBigPicture = ({url, description, likes, comments}) => {
   bigPicture.classList.remove('hidden');
+  commentsLoader.classList.remove('hidden');
   page.classList.add('modal-open');
   document.addEventListener('keydown', onEscapePressed);
   image.src = url;
@@ -58,13 +66,13 @@ const setBigPicture = ({url, description, likes, comments}) => {
   let lastInd = getLastShownCommentIndex(firstInd, comments);
   commentsContainer.innerHTML='';
   loadComments(comments.slice(firstInd, lastInd));
-  commentsLoadedElement.textContent = lastInd;
+  setLoadedCommentsCount(lastInd, comments.length);
   commentsLoader.addEventListener('click', (evt) => {
     evt.preventDefault();
     firstInd += COMMENTS_PATCH;
     lastInd = getLastShownCommentIndex(lastInd, comments);
     loadComments(comments.slice(firstInd, lastInd));
-    commentsLoadedElement.textContent = lastInd;
+    setLoadedCommentsCount(lastInd, comments.length);
   });
   totalCommentsCountElement.textContent = comments.length;
 };

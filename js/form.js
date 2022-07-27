@@ -1,4 +1,7 @@
 import {isEscapeKey} from './util.js';
+import {createPhoto} from './api.js';
+import {showSuccessMessage} from './success-message.js';
+import {showErrorMessage} from './error-message.js';
 
 const page = document.querySelector('body');
 const uploadFileInput = document.querySelector('#upload-file');
@@ -6,8 +9,7 @@ const form = document.querySelector('.img-upload__form');
 const formOverlay = form.querySelector('.img-upload__overlay');
 const closeButton = form.querySelector('.img-upload__cancel');
 const hashTagInput = form.querySelector('.text__hashtags');
-const hashtagsInput = form.querySelector('.text__hashtags');
-const commentsInput = form.querySelector('.text__description');
+const submitButton = form.querySelector('.img-upload__submit');
 
 const scaleContainer = document.querySelector('.scale');
 const scaleSmallerButton = scaleContainer.querySelector('.scale__control--smaller');
@@ -26,16 +28,26 @@ const onKeyPressed = (evt) => {
   } else if (isEscapeKey(evt)) {
     evt.preventDefault();
     closeForm();
+    resetForm();
   }
 };
+
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+};
+
+const enableSubmitButton = () => {
+  submitButton.disabled = false;
+};
+
+function resetForm(){
+  form.reset();
+}
 
 function closeForm() {
   formOverlay.classList.add('hidden');
   page.classList.remove('modal-open');
-  uploadFileInput.value = '';
   document.removeEventListener('keydown', onKeyPressed);
-  hashtagsInput.value = '';
-  commentsInput.value = '';
 }
 
 function openForm() {
@@ -50,6 +62,7 @@ uploadFileInput.addEventListener('change', () => {
 
 closeButton.addEventListener('click', () => {
   closeForm();
+  resetForm();
 });
 
 const zoom = (value) => {
@@ -81,8 +94,8 @@ const pristine = new Pristine(form,
   }, false);
 
 const validateHashTags = (value) => {
-  const re = /^#[A-Za-zА-Яа-яЁё\d]{1-19}/;
-  if (value !== undefined) {
+  const re = /^#[а-яА-ЯёЁa-zA-Z0-9]{1,19}$/;
+  if (value !== undefined && value !== '') {
     const hashTags = value.split(' ');
     return hashTags.length <= 5 && hashTags.every((tag) => re.test(tag));
   }
@@ -93,5 +106,17 @@ pristine.addValidator(hashTagInput, validateHashTags, 'Введите до 5-т�
 
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  pristine.validate();
+  if (pristine.validate()) {
+    blockSubmitButton();
+    createPhoto(() => {
+      closeForm();
+      resetForm();
+      showSuccessMessage();
+      enableSubmitButton();
+    }, () => {
+      closeForm();
+      showErrorMessage();
+      enableSubmitButton();
+    }, new FormData(evt.target));
+  }
 });
