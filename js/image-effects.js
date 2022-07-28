@@ -1,7 +1,8 @@
-const slider = document.querySelector('.effect-level__slider');
+const sliderContainer = document.querySelector('.effect-level');
+const slider = sliderContainer.querySelector('.effect-level__slider');
 const effectsListElement = document.querySelector('.effects__list');
 const imagePreview = document.querySelector('.img-upload__preview img');
-const effectInput = document.querySelector('.effect-level__value');
+const effectInput = sliderContainer.querySelector('.effect-level__value');
 
 const Effects = {
   'chrome': {
@@ -46,8 +47,8 @@ const Effects = {
 
 let currentEffect = 'none';
 
-const hideSlider = () => slider.classList.add('visually-hidden');
-const showSlider = () => slider.classList.remove('visually-hidden');
+const hideSlider = () => sliderContainer.classList.add('visually-hidden');
+const showSlider = () => sliderContainer.classList.remove('visually-hidden');
 
 noUiSlider.create(slider, {
   range: {
@@ -103,7 +104,7 @@ const resetEffects = () => {
   slider.noUiSlider.reset();
   hideSlider();
   imagePreview.classList.remove(...imagePreview.classList);
-  imagePreview.style.filter = 'none';
+  imagePreview.style = 'none';
 };
 
 export {hideSlider, resetEffects};

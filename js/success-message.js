@@ -10,24 +10,24 @@ const content = document.querySelector('body');
 const onEscKeyPressed = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    hideSuccessMessage();
+    closeSuccessMessagePopup();
   }
 };
 
-submitButton.addEventListener('click', hideSuccessMessage);
+submitButton.addEventListener('click', closeSuccessMessagePopup);
 
 successMessage.addEventListener('click', (evt) =>{
   if(evt.target.classList.contains('success')) {
-    hideSuccessMessage();
+    closeSuccessMessagePopup();
   }
 });
 
-function hideSuccessMessage() {
+function closeSuccessMessagePopup() {
   successMessage.classList.add('hidden');
   document.removeEventListener('keydown', onEscKeyPressed);
 }
 
-const showSuccessMessage = () => {
+const openSuccessMessagePopup = () => {
   successMessage.classList.remove('hidden');
   document.addEventListener('keydown', onEscKeyPressed);
 
@@ -37,4 +37,4 @@ content.append(successMessage);
 successMessage.classList.add('hidden');
 
 
-export {showSuccessMessage};
+export {openSuccessMessagePopup};
