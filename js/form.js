@@ -1,7 +1,7 @@
 import {isEscapeKey} from './util.js';
 import {createPhoto} from './api.js';
-import {showSuccessMessage} from './success-message.js';
-import {showErrorMessage} from './error-message.js';
+import {openSuccessMessagePopup} from './success-message.js';
+import {openErrorMessagePopup} from './error-message.js';
 import {resetEffects} from './image-effects.js';
 import {resetImageSettings} from './photo-edit.js';
 
@@ -12,11 +12,13 @@ const formOverlay = form.querySelector('.img-upload__overlay');
 const closeButton = form.querySelector('.img-upload__cancel');
 const hashTagInput = form.querySelector('.text__hashtags');
 const submitButton = form.querySelector('.img-upload__submit');
+const errorPopup = document.querySelector('.error');
+
 
 const onKeyPressed = (evt) => {
   if (evt.target.tagName === 'INPUT' || evt.target.tagName === 'TEXTAREA') {
     evt.stopPropagation();
-  } else if (isEscapeKey(evt)) {
+  } else if (isEscapeKey(evt) && errorPopup.classList.contains('hidden')){
     evt.preventDefault();
     closeForm();
     resetForm();
@@ -84,11 +86,10 @@ form.addEventListener('submit', (evt) => {
     createPhoto(() => {
       closeForm();
       resetForm();
-      showSuccessMessage();
+      openSuccessMessagePopup();
       enableSubmitButton();
     }, () => {
-      closeForm();
-      showErrorMessage();
+      openErrorMessagePopup();
       enableSubmitButton();
     }, new FormData(evt.target));
   }
